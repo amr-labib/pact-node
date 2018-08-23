@@ -211,6 +211,35 @@ function extract(data: Data): Promise<void> {
 			console.log(chalk.green("Extraction done."));
 		})
 		.then(() => {
+			// create symlinks in the bin directory to standalone binaries
+			const stadnaloneBinFolder = path.resolve(data.platformFolderPath, "bin");
+			const binFolder = path.resolve(__dirname, "..", "bin");
+			fs.readdir(stadnaloneBinFolder, (err: Error, files: string[]) => {
+				if(err) {
+					console.log(`Unable to read binaries in ${stadnaloneBinFolder}`);
+				} else {
+					for (var file of files) {
+						let filePath = path.resolve(stadnaloneBinFolder, file);
+						let symlinkPath = path.resolve(binFolder, file);
+						if(symlinkPath.match(/.+\.bat$/)) {
+							symlinkPath.replace('.bat','');
+						}
+						if(fs.existsSync(symlinkPath)){
+							fs.unlinkSync(symlinkPath);
+						}
+						fs.symlink(filePath, symlinkPath, (err: Error) => {
+							if(err) {
+								console.log(`Unable to create symlink for ${filePath} at ${symlinkPath}`);
+								console.log(err.message);
+								console.log(err.name);
+								console.log(err.stack);
+							}
+						});
+					}
+				}
+			});
+		})
+		.then(() => {
 			console.log(
 				"\n\n" +
 				chalk.bgYellow(

@@ -6,7 +6,13 @@
   "homepage": "https://github.com/pact-foundation/pact-node#readme",
   "types": "src/index.d.ts",
   "bin": {
-    "pact": "bin/pact-cli.js"
+    "pact-node": "bin/pact-cli.js",
+    "pact": "bin/pact",
+    "pact-broker": "bin/pact-broker",
+    "pact-message": "bin/pact-message",
+    "pact-mock-service": "bin/pact-mock-service",
+    "pact-provider-verifier": "bin/pact-provider-verifier",
+    "pact-stub-service": "bin/pact-stub-service"
   },
   "os": [
     "darwin",
@@ -93,6 +99,7 @@
     "typescript": "2.7.2"
   },
   "scripts": {
+    "preinstall": "node preinstall.js",
     "postinstall": "node postinstall.js",
     "install:all": "npm run install:osx && npm run install:win && npm run install:linux32 && npm run install:linux64 && npm run install:current",
     "install:current": "cross-env PACT_DO_NOT_TRACK=true node postinstall.js",

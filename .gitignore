@@ -45,6 +45,7 @@ package-lock.json
 *.d.ts
 *.js
 *.js.map
+!preinstall.js
 !postinstall.js
 !download-checksums.js
 
